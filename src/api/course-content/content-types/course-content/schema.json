@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "course_contents",
+  "info": {
+    "singularName": "course-content",
+    "pluralName": "course-contents",
+    "displayName": "Course Content"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "richtext",
+      "required": true
+    },
+    "course": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::course.course",
+      "inversedBy": "course_contents"
+    }
+  }
+}

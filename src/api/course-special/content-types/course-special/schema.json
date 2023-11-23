@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "course_specials",
+  "info": {
+    "singularName": "course-special",
+    "pluralName": "course-specials",
+    "displayName": "Course Special",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "course": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::course.course",
+      "inversedBy": "course_specials"
+    },
+    "description": {
+      "type": "richtext",
+      "required": true
+    }
+  }
+}

@@ -362,31 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiFormForm extends Schema.CollectionType {
-  collectionName: 'forms';
-  info: {
-    singularName: 'form';
-    pluralName: 'forms';
-    displayName: 'Form';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    full_name: Attribute.String & Attribute.Required;
-    phone_number: Attribute.String & Attribute.Required;
-    email: Attribute.String;
-    type: Attribute.Enumeration<['course', 'enterprise']> & Attribute.Required;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::form.form', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::form.form', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -500,6 +475,50 @@ export interface PluginUploadFolder extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'plugin::upload.folder',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<{
+        min: 1;
+        max: 50;
+      }>;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
       'oneToOne',
       'admin::user'
     > &
@@ -658,43 +677,215 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
+export interface ApiCourseCourse extends Schema.CollectionType {
+  collectionName: 'courses';
   info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
+    singularName: 'course';
+    pluralName: 'courses';
+    displayName: 'Course';
   };
   options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
+    draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<{
-        min: 1;
-        max: 50;
-      }>;
-    code: Attribute.String & Attribute.Unique;
+    name: Attribute.String & Attribute.Required;
+    slug: Attribute.UID<'api::course.course', 'name'> & Attribute.Required;
+    thumbnail: Attribute.Media & Attribute.Required;
+    description: Attribute.Text;
+    course_specials: Attribute.Relation<
+      'api::course.course',
+      'oneToMany',
+      'api::course-special.course-special'
+    >;
+    course_targets: Attribute.Relation<
+      'api::course.course',
+      'oneToMany',
+      'api::course-target.course-target'
+    >;
+    course_contents: Attribute.Relation<
+      'api::course.course',
+      'oneToMany',
+      'api::course-content.course-content'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::course.course',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::course.course',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCourseContentCourseContent extends Schema.CollectionType {
+  collectionName: 'course_contents';
+  info: {
+    singularName: 'course-content';
+    pluralName: 'course-contents';
+    displayName: 'Course Content';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    description: Attribute.RichText & Attribute.Required;
+    course: Attribute.Relation<
+      'api::course-content.course-content',
+      'manyToOne',
+      'api::course.course'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::course-content.course-content',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::course-content.course-content',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCourseSpecialCourseSpecial extends Schema.CollectionType {
+  collectionName: 'course_specials';
+  info: {
+    singularName: 'course-special';
+    pluralName: 'course-specials';
+    displayName: 'Course Special';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    course: Attribute.Relation<
+      'api::course-special.course-special',
+      'manyToOne',
+      'api::course.course'
+    >;
+    description: Attribute.RichText & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::course-special.course-special',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::course-special.course-special',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCourseTargetCourseTarget extends Schema.CollectionType {
+  collectionName: 'course_targets';
+  info: {
+    singularName: 'course-target';
+    pluralName: 'course-targets';
+    displayName: 'Course Target';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    course: Attribute.Relation<
+      'api::course-target.course-target',
+      'manyToOne',
+      'api::course.course'
+    >;
+    description: Attribute.RichText;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::course-target.course-target',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::course-target.course-target',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiFormForm extends Schema.CollectionType {
+  collectionName: 'forms';
+  info: {
+    singularName: 'form';
+    pluralName: 'forms';
+    displayName: 'Form';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    full_name: Attribute.String & Attribute.Required;
+    phone_number: Attribute.String & Attribute.Required;
+    email: Attribute.String;
+    type: Attribute.Enumeration<['course', 'enterprise']> & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::form.form', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::form.form', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProgramProgram extends Schema.CollectionType {
+  collectionName: 'programs';
+  info: {
+    singularName: 'program';
+    pluralName: 'programs';
+    displayName: 'Program';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    slug: Attribute.UID<'api::program.program', 'name'> & Attribute.Required;
+    description: Attribute.RichText & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::program.program',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::program.program',
       'oneToOne',
       'admin::user'
     > &
@@ -712,13 +903,18 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::form.form': ApiFormForm;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
+      'api::course.course': ApiCourseCourse;
+      'api::course-content.course-content': ApiCourseContentCourseContent;
+      'api::course-special.course-special': ApiCourseSpecialCourseSpecial;
+      'api::course-target.course-target': ApiCourseTargetCourseTarget;
+      'api::form.form': ApiFormForm;
+      'api::program.program': ApiProgramProgram;
     }
   }
 }

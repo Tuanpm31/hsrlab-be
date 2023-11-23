@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "course_targets",
+  "info": {
+    "singularName": "course-target",
+    "pluralName": "course-targets",
+    "displayName": "Course Target",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "course": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::course.course",
+      "inversedBy": "course_targets"
+    },
+    "description": {
+      "type": "richtext"
+    }
+  }
+}
