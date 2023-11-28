@@ -875,6 +875,11 @@ export interface ApiProgramProgram extends Schema.CollectionType {
     name: Attribute.String & Attribute.Required;
     slug: Attribute.UID<'api::program.program', 'name'> & Attribute.Required;
     description: Attribute.RichText & Attribute.Required;
+    courses: Attribute.Relation<
+      'api::program.program',
+      'oneToMany',
+      'api::course.course'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
