@@ -23,7 +23,7 @@
     },
     "description": {
       "type": "richtext",
-      "required": true
+      "required": false
     },
     "courses": {
       "type": "relation",
