@@ -841,6 +841,7 @@ export interface ApiFormForm extends Schema.CollectionType {
     singularName: 'form';
     pluralName: 'forms';
     displayName: 'Form';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -850,6 +851,7 @@ export interface ApiFormForm extends Schema.CollectionType {
     phone_number: Attribute.String & Attribute.Required;
     email: Attribute.String;
     type: Attribute.Enumeration<['course', 'enterprise']> & Attribute.Required;
+    message: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -874,7 +876,7 @@ export interface ApiProgramProgram extends Schema.CollectionType {
   attributes: {
     name: Attribute.String & Attribute.Required;
     slug: Attribute.UID<'api::program.program', 'name'> & Attribute.Required;
-    description: Attribute.RichText & Attribute.Required;
+    description: Attribute.RichText;
     courses: Attribute.Relation<
       'api::program.program',
       'oneToMany',
