@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "enterprise_forms",
+  "info": {
+    "singularName": "enterprise-form",
+    "pluralName": "enterprise-forms",
+    "displayName": "Enterprise Form"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "string",
+      "required": true
+    },
+    "phone_number": {
+      "type": "string",
+      "required": true
+    },
+    "enterprise_name": {
+      "type": "string",
+      "required": true
+    },
+    "address": {
+      "type": "string",
+      "required": true
+    },
+    "course": {
+      "type": "string",
+      "required": true
+    },
+    "target": {
+      "type": "text",
+      "required": true
+    },
+    "time_suitable": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

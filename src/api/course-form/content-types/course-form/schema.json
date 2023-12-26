@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "course_forms",
+  "info": {
+    "singularName": "course-form",
+    "pluralName": "course-forms",
+    "displayName": "Course Form",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "full_name": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "string",
+      "required": true
+    },
+    "phone_number": {
+      "type": "string",
+      "required": true
+    },
+    "birth_year": {
+      "required": true,
+      "type": "biginteger"
+    },
+    "address": {
+      "type": "string",
+      "required": true
+    },
+    "course": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::course.course"
+    },
+    "message": {
+      "type": "text",
+      "required": true
+    },
+    "suitable_time": {
+      "type": "string",
+      "required": true
+    },
+    "group_friends": {
+      "type": "text"
+    }
+  }
+}

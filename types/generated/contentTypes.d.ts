@@ -677,6 +677,72 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiBlogBlog extends Schema.CollectionType {
+  collectionName: 'blogs';
+  info: {
+    singularName: 'blog';
+    pluralName: 'blogs';
+    displayName: 'Blog';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    slug: Attribute.UID<'api::blog.blog', 'title'>;
+    author: Attribute.String & Attribute.Required;
+    thumbail: Attribute.Media;
+    content: Attribute.Blocks & Attribute.Required;
+    blog_category: Attribute.Relation<
+      'api::blog.blog',
+      'manyToOne',
+      'api::blog-category.blog-category'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::blog.blog', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::blog.blog', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiBlogCategoryBlogCategory extends Schema.CollectionType {
+  collectionName: 'blog_categories';
+  info: {
+    singularName: 'blog-category';
+    pluralName: 'blog-categories';
+    displayName: 'Blog Category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    blogs: Attribute.Relation<
+      'api::blog-category.blog-category',
+      'oneToMany',
+      'api::blog.blog'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::blog-category.blog-category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::blog-category.blog-category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiCourseCourse extends Schema.CollectionType {
   collectionName: 'courses';
   info: {
@@ -761,6 +827,48 @@ export interface ApiCourseContentCourseContent extends Schema.CollectionType {
   };
 }
 
+export interface ApiCourseFormCourseForm extends Schema.CollectionType {
+  collectionName: 'course_forms';
+  info: {
+    singularName: 'course-form';
+    pluralName: 'course-forms';
+    displayName: 'Course Form';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    full_name: Attribute.String & Attribute.Required;
+    email: Attribute.String & Attribute.Required;
+    phone_number: Attribute.String & Attribute.Required;
+    birth_year: Attribute.BigInteger & Attribute.Required;
+    address: Attribute.String & Attribute.Required;
+    course: Attribute.Relation<
+      'api::course-form.course-form',
+      'oneToOne',
+      'api::course.course'
+    >;
+    message: Attribute.Text & Attribute.Required;
+    suitable_time: Attribute.String & Attribute.Required;
+    group_friends: Attribute.Text;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::course-form.course-form',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::course-form.course-form',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiCourseSpecialCourseSpecial extends Schema.CollectionType {
   collectionName: 'course_specials';
   info: {
@@ -828,6 +936,43 @@ export interface ApiCourseTargetCourseTarget extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::course-target.course-target',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiEnterpriseFormEnterpriseForm extends Schema.CollectionType {
+  collectionName: 'enterprise_forms';
+  info: {
+    singularName: 'enterprise-form';
+    pluralName: 'enterprise-forms';
+    displayName: 'Enterprise Form';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    email: Attribute.String & Attribute.Required;
+    phone_number: Attribute.String & Attribute.Required;
+    enterprise_name: Attribute.String & Attribute.Required;
+    address: Attribute.String & Attribute.Required;
+    course: Attribute.String & Attribute.Required;
+    target: Attribute.Text & Attribute.Required;
+    time_suitable: Attribute.String & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::enterprise-form.enterprise-form',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::enterprise-form.enterprise-form',
       'oneToOne',
       'admin::user'
     > &
@@ -916,10 +1061,14 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::blog.blog': ApiBlogBlog;
+      'api::blog-category.blog-category': ApiBlogCategoryBlogCategory;
       'api::course.course': ApiCourseCourse;
       'api::course-content.course-content': ApiCourseContentCourseContent;
+      'api::course-form.course-form': ApiCourseFormCourseForm;
       'api::course-special.course-special': ApiCourseSpecialCourseSpecial;
       'api::course-target.course-target': ApiCourseTargetCourseTarget;
+      'api::enterprise-form.enterprise-form': ApiEnterpriseFormEnterpriseForm;
       'api::form.form': ApiFormForm;
       'api::program.program': ApiProgramProgram;
     }
