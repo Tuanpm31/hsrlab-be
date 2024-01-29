@@ -1063,6 +1063,7 @@ export interface ApiOrderOrder extends Schema.CollectionType {
     address: Attribute.String & Attribute.Required;
     note: Attribute.String;
     amount: Attribute.BigInteger;
+    status: Attribute.Enumeration<['PENDING', 'PAID', 'FAILED']>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

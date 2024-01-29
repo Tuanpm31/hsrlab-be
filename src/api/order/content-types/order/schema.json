@@ -41,6 +41,14 @@
     },
     "amount": {
       "type": "biginteger"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "PENDING",
+        "PAID",
+        "FAILED"
+      ]
     }
   }
 }
