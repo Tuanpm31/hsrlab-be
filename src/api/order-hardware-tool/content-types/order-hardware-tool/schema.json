@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "order_hardware_tools",
+  "info": {
+    "singularName": "order-hardware-tool",
+    "pluralName": "order-hardware-tools",
+    "displayName": "Order Hardware Tool"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hardware_tool": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::hardware-tool.hardware-tool"
+    },
+    "order": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::order.order"
+    },
+    "quantity": {
+      "type": "integer",
+      "required": true
+    }
+  }
+}

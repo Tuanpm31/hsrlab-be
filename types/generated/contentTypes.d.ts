@@ -1008,6 +1008,120 @@ export interface ApiFormForm extends Schema.CollectionType {
   };
 }
 
+export interface ApiHardwareToolHardwareTool extends Schema.CollectionType {
+  collectionName: 'hardware_tools';
+  info: {
+    singularName: 'hardware-tool';
+    pluralName: 'hardware-tools';
+    displayName: 'Hardware Tool';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    images: Attribute.Media;
+    description: Attribute.Text & Attribute.Required;
+    information: Attribute.RichText;
+    price: Attribute.BigInteger;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::hardware-tool.hardware-tool',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::hardware-tool.hardware-tool',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiOrderOrder extends Schema.CollectionType {
+  collectionName: 'orders';
+  info: {
+    singularName: 'order';
+    pluralName: 'orders';
+    displayName: 'Order';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    full_name: Attribute.String & Attribute.Required;
+    phone_number: Attribute.String & Attribute.Required;
+    email: Attribute.String & Attribute.Required;
+    city: Attribute.String & Attribute.Required;
+    district: Attribute.String & Attribute.Required;
+    address: Attribute.String & Attribute.Required;
+    note: Attribute.String;
+    amount: Attribute.BigInteger;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiOrderHardwareToolOrderHardwareTool
+  extends Schema.CollectionType {
+  collectionName: 'order_hardware_tools';
+  info: {
+    singularName: 'order-hardware-tool';
+    pluralName: 'order-hardware-tools';
+    displayName: 'Order Hardware Tool';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    hardware_tool: Attribute.Relation<
+      'api::order-hardware-tool.order-hardware-tool',
+      'oneToOne',
+      'api::hardware-tool.hardware-tool'
+    >;
+    order: Attribute.Relation<
+      'api::order-hardware-tool.order-hardware-tool',
+      'oneToOne',
+      'api::order.order'
+    >;
+    quantity: Attribute.Integer & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order-hardware-tool.order-hardware-tool',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order-hardware-tool.order-hardware-tool',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiProgramProgram extends Schema.CollectionType {
   collectionName: 'programs';
   info: {
@@ -1071,6 +1185,9 @@ declare module '@strapi/types' {
       'api::course-target.course-target': ApiCourseTargetCourseTarget;
       'api::enterprise-form.enterprise-form': ApiEnterpriseFormEnterpriseForm;
       'api::form.form': ApiFormForm;
+      'api::hardware-tool.hardware-tool': ApiHardwareToolHardwareTool;
+      'api::order.order': ApiOrderOrder;
+      'api::order-hardware-tool.order-hardware-tool': ApiOrderHardwareToolOrderHardwareTool;
       'api::program.program': ApiProgramProgram;
     }
   }
